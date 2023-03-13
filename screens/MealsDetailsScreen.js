@@ -1,10 +1,12 @@
+import React from "react";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import MealDetails from "../components/MealDetails";
 import SubTitle from "../components/SubTitle";
 import Details from "../components/Details";
+import IconButton from "../components/IconButton";
 
 
-const MealsDetailsScreen = ({ route }) => {
+const MealsDetailsScreen = ({ route, navigation }) => {
 
     const { mealData } = route.params;
 
@@ -16,6 +18,18 @@ const MealsDetailsScreen = ({ route }) => {
         affordability,
         complexity,
         duration, } = mealData;
+
+    const handleIconPress = () => {
+        console.log('Pressed');
+    };
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => {
+                return <IconButton color={'#ffffff'} onPress={handleIconPress} />
+            }
+        });
+    },[navigation]);
 
     return (
         <ScrollView style={styles.root}>
@@ -29,12 +43,12 @@ const MealsDetailsScreen = ({ route }) => {
             />
             <View>
                 <SubTitle>Ingredients</SubTitle>
-                {ingredients.map(i => <Details>{i}</Details>)}
+                {ingredients.map(i => <Details key={i} >{i}</Details>)}
             </View>
             <View>
                 <SubTitle>Steps</SubTitle>
                 <View>
-                    {steps.map((s, i) => <Details>{i + 1}. {s}</Details>)}
+                    {steps.map((s, i) => <Details key={s}>{i + 1}. {s}</Details>)}
                 </View>
             </View>
         </ScrollView>
